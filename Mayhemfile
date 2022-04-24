@@ -1,0 +1,5 @@
+project: candid
+target: parser
+
+cmds:
+  - cmd: /parser
