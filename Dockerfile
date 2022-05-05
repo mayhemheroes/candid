@@ -21,3 +21,5 @@ FROM --platform=linux/amd64 ubuntu:20.04
 
 ## TODO: Change <Path in Builder Stage>
 COPY --from=builder /candid/rust/candid/fuzz/target/debug/parser /
+RUN mkdir /tests
+COPY --from=builder /candid/test /tests
