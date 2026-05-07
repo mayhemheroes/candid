@@ -1,15 +1,15 @@
 #![no_main]
-use candid::types::value::IDLArgs;
 use libfuzzer_sys::fuzz_target;
+use std::slice;
+use candid::types::value::IDLArgs;
+use candid::{decode_args, decode_one, Decode};
 
 fuzz_target!(|data: &[u8]| {
-    let mut config = candid::DecoderConfig::new();
-    config.set_decoding_quota(2_000_000_000); // already scaled by 50x due to untyped
-    let decoded = match IDLArgs::from_bytes_with_config(&data, &config) {
+    let decoded = match IDLArgs::from_bytes(&data) {
         Ok(_v) => _v,
-        Err(_e) => return,
+        Err(e) => return,
     };
-    let _ = decoded.get_types();
-    let _ = decoded.to_bytes();
-    let _ = decoded.to_string();
+    decoded.get_types();
+    decoded.to_bytes();
+    decoded.to_string();
 });
